@@ -78,6 +78,9 @@ module.exports = {
     'one-var': 'off',
     'no-void': 'off',
     'multiline-ternary': 'off',
+    'space-before-function-paren': [2, { "anonymous": "always", "named": "never" }],
+    'space-in-parens': ["error", "always"],
+    'space-in-parens': ["error", "never"],
 
     'import/first': 'off',
     'import/namespace': 'error',
