@@ -1,8 +1,8 @@
 export interface ExampleStateInterface {
-  prop: boolean;
+  prop: boolean
 }
 
-function state (): ExampleStateInterface {
+function state(): ExampleStateInterface {
   return {
     prop: false
   }
