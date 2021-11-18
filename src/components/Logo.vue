@@ -7,8 +7,7 @@
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
-      width="170"
-      height="408.9136490250696"
+      height="200.9136490250696"
       viewBox="0, 0, 400,408.9136490250696"
     >
       <g id="svgg">
