@@ -1,7 +1,7 @@
 <template>
-<div class="bg-yellow-500 font-bold">
-  <router-view />
-</div>
+  <div class="h-full bg-gray-100 text-gray-600">
+    <router-view />
+  </div>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
