@@ -14,7 +14,9 @@
     "@heroicons/vue": "^1.0.5",
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.6.5",
+    "postcss-remove-declaration": "^1.0.0",
     "quasar": "^2.0.0",
+    "string-replace-loader": "^3.1.0",
     "vuex": "^4.0.1"
   },
   "devDependencies": {

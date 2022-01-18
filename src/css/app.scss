@@ -1,4 +1,70 @@
 // app global css in SCSS form
+.nav {
+    display: none
+}
+
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+/* TailwindCSS */
+
+.flex {
+    display: flex
+}
+
+.order-first {
+    order: -9999
+}
+
+.order-last {
+    order: 9999
+}
+
+
+/* TailwindCSS */
+
+.cursor-not-allowed {
+    cursor: not-allowed
+}
+
+.cursor-pointer {
+    cursor: pointer
+}
+
+
+/* TailwindCSS */
+
+.block {
+    display: block
+}
+
+.inline-block {
+    display: inline-block
+}
+
+
+/* TailwindCSS */
+
+.text-justify {
+    text-align: justify
+}
+
+
+/* TailwindCSS */
+
+.hidden {
+    display: none
+}
+
+.invisible {
+    visibility: hidden
+}
+
+.overflow-auto {
+    overflow: auto
+}
+
+.overflow-hidden {
+    overflow: hidden
+}
