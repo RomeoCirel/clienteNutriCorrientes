@@ -1,14 +1,14 @@
 <template>
-  <div class="">
+  <div>
     <svg
       id="svg"
       class="fill-current"
-      :class="fill"
+      :class="style"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
-      height="200.9136490250696"
-      viewBox="0, 0, 400,408.9136490250696"
+      :height="height"
+      :width="width"
     >
       <g id="svgg">
         <path
@@ -40,21 +40,35 @@
   </div>
 </template>
 <script lang="ts">
-import { ref, Ref, watch } from 'vue'
+import { ref, Ref, watch, computed, defineComponent } from 'vue'
 
 interface Props {
-  fill?: string
+  fill: string
+  estilo: string
 }
-export default {
+export default defineComponent({
   name: 'Logo',
   props: {
     fill: {
       type: String,
       default: 'text-gray-900'
+    },
+    height: {
+      type: String,
+      default: '200.9136490250696'
+    },
+    width: {
+      type: String,
+      default: '200.9136490250696'
+    },
+    estilo: {
+      type: String,
+      default: ''
     }
   },
   setup(props: Props) {
     const color: Ref<Props['fill']> = ref(props.fill)
+    const clases: Ref<Props['estilo']> = ref(props.estilo)
     watch(
       () => props.fill,
       (newFill: Props['fill']) => {
@@ -63,8 +77,11 @@ export default {
     )
 
     return {
+      style: computed<string>(() => {
+        return `${color.value} ${clases.value}`
+      }),
       color
     }
   }
-}
+})
 </script>
