@@ -1,33 +1,33 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <NavBar :estaLogueado="false" />
+    <Menu :estaLogueado="true" />
     <q-page-container>
-      <router-view />
+      <router-view @irHome="irHome" @irLogin="irLogin" />
     </q-page-container>
   </q-layout>
 </template>
 
 <script lang="ts">
-import NavBar from 'src/components/NavBar.vue'
+import { useRouter } from 'vue-router'
+import { rutalogin, rutaHome } from 'src/router/rutasNombres'
 
-import { defineComponent, ref } from 'vue'
+import Menu from 'src/components/Menu.vue'
 
-export default defineComponent({
+export default {
   name: 'MainLayout',
 
   components: {
-    NavBar
+    Menu
   },
 
   setup() {
-    const leftDrawerOpen = ref(false)
+    const router = useRouter()
 
     return {
-      leftDrawerOpen,
-      toggleLeftDrawer() {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
+      // rutas
+      irHome: () => void router.push({ name: rutaHome }),
+      irLogin: () => void router.push({ name: rutalogin })
     }
   }
-})
+}
 </script>
