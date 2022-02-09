@@ -1,2 +1,5 @@
 export const rutalogin = 'login'
 export const rutaHome = 'home'
+export const rutaPersonal = 'personal'
+export const rutaPersonalCrear = 'crearPersonal'
+export const rutaPersaonalLista = 'listaPersonal'
