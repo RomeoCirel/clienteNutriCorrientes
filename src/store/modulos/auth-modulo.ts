@@ -1,3 +1,5 @@
+import { RespuestaObtenerPermisos } from 'src/types/Permisos/permisos-type'
+import { Permisos, PERMISOS_DEFAULT } from '../../types/Permisos/permisos-type'
 import { EstadoActualDatos } from 'src/types/utilidades-tipos'
 import { ModeloUsuario } from 'src/types/usuarios-tipos'
 import { Module } from 'vuex'
@@ -14,21 +16,25 @@ import { EstadoBase } from 'src/store/index'
 import {
   AUTENTICAR_USUARIO,
   OBTENER_USUARIO_AUTH,
-  LOGOUT
+  LOGOUT,
+  OBTENER_PERMISOS_USUARIO_AUTH
 } from 'src/store/constantes/actions'
 import {
   ESTA_LOGUEADO,
   USUARIO_AUTH,
   CAMBIAR_CLAVE,
   NOMBRE_USUARIO_AUTH,
-  INICIALES_USUARIO_AUTH
+  INICIALES_USUARIO_AUTH,
+  PERMISOS_USUARIO_AUTH
 } from 'src/store/constantes/guetters'
+import { obtenerPermisos } from 'src/services/permisos-api'
 
 type Usuario = ModeloUsuario
 export type UsuarioAuth = Usuario | null
 export interface StateAuth {
   auth: boolean
   usuario: Usuario | null
+  permisos: Permisos
   estado: EstadoActualDatos
 }
 
@@ -37,13 +43,16 @@ const AuthModule: Module<StateAuth, EstadoBase> = {
   state: {
     auth: false,
     usuario: null,
+    permisos: { ...PERMISOS_DEFAULT },
     estado: 'inicial'
   },
   mutations: {
     setUsuario(state, usuario: Usuario) {
       state.usuario = usuario
     },
-
+    setPermisos(state, permisos: Permisos) {
+      state.permisos = permisos
+    },
     setEstadoCargando(state): void {
       state.estado = 'cargando'
     },
@@ -68,7 +77,7 @@ const AuthModule: Module<StateAuth, EstadoBase> = {
       commit('setAuth', true)
     },
     async [AUTENTICAR_USUARIO](
-      { commit },
+      { commit, dispatch },
       credenciales: CredencialesUsuario
     ): Promise<RespuestaLogin> {
       commit('setEstadoCargando')
@@ -79,6 +88,7 @@ const AuthModule: Module<StateAuth, EstadoBase> = {
           commit('setUsuario', usuario)
           commit('setAuth', true)
           commit('setEstadoDatos')
+          void dispatch(OBTENER_PERMISOS_USUARIO_AUTH)
         }
       }
       if (!respuesta.ok) {
@@ -98,6 +108,23 @@ const AuthModule: Module<StateAuth, EstadoBase> = {
       }
       if (!res.ok) {
         commit('setUsuario', null)
+        commit('setEstadoError')
+      }
+      return res
+    },
+
+    async [OBTENER_PERMISOS_USUARIO_AUTH]({
+      commit
+    }): Promise<RespuestaObtenerPermisos> {
+      commit('setEstadoCargando')
+      const res = await obtenerPermisos()
+      if (res.ok) {
+        const permisos = res.datos.permisos
+        commit('setPermisos', permisos)
+        commit('setEstadoDatos')
+      }
+      if (!res.ok) {
+        commit('setPermisos', null)
         commit('setEstadoError')
       }
       return res
@@ -152,6 +179,10 @@ const AuthModule: Module<StateAuth, EstadoBase> = {
         return letras.toUpperCase()
       }
       return ''
+    },
+
+    [PERMISOS_USUARIO_AUTH](state): Permisos {
+      return state.permisos
     }
   }
 }
