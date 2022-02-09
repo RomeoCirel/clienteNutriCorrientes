@@ -6,6 +6,11 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+.q-layout {
+    position: inherit;
+    height: 90vh
+}
+
 
 /* TailwindCSS */
 

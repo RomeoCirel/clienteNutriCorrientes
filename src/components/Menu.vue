@@ -1,6 +1,6 @@
 <template>
-  <Popover class="relative bg-white">
-    <div class="md:max-w-7xl mx-auto px-4 sm:px-6">
+  <Popover class="relative bg-white z-45">
+    <div class="mx-auto px-4 sm:px-6">
       <div
         class="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10"
       >
@@ -27,7 +27,7 @@
             <Popover class="relative my-2 px-10 md:my-0 md:px-0">
               <PopoverButton
                 as="button"
-                @click="irHome"
+                @click="irARutaPorNombre(rutaHome)"
                 class="flex text-gray-500 group bg-white rounded-md block md:inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 <span>Inicio</span>
@@ -265,7 +265,7 @@
             </Popover>
           </PopoverGroup>
           <div>
-            <Popover class="relative my-2 md:my-0" v-slot="{ open }">
+            <Popover class="relative my-2 md:my-0 mr-10" v-slot="{ open }">
               <PopoverButton
                 :class="[
                   open ? 'text-gray-900' : 'text-gray-500',
@@ -299,7 +299,7 @@
                 leave-to-class="opacity-0 translate-y-1"
               >
                 <PopoverPanel
-                  class="absolute z-50 -ml-4 mt-3 transform px-2 w-screen max-w-sm sm:px-0 -translate-x-2/3 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2"
+                  class="absolute z-50 -ml-4 mt-3 transform px-2 w-screen max-w-sm sm:px-0 -translate-x-2/3 lg:ml-0 lg:left-1/2 lg:-translate-x-2/3"
                 >
                   <div
                     class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden"
@@ -610,6 +610,7 @@ import {
 } from '@headlessui/vue'
 import { MenuIcon, XIcon } from '@heroicons/vue/outline'
 import { ChevronDownIcon } from '@heroicons/vue/solid'
+import { rutaHome } from 'src/router/rutasNombres'
 import IsoLogo from './IsoLogo.vue'
 import Logo from './Logo.vue'
 
@@ -652,6 +653,7 @@ export default defineComponent({
       }
     )
     return {
+      rutaHome,
       produccion,
       gestion,
       session,
