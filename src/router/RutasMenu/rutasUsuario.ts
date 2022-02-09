@@ -7,13 +7,15 @@ export const session: ListaItemsMenu = [
     name: 'Perfil',
     description: 'Administrar tus datos personales',
     nombreRuta: '#',
-    icon: UserIcon
+    icon: UserIcon,
+    permiso: 'personal.listado'
   },
   {
     name: 'Salir',
     accion: 'cerrar',
     nombreRuta: '#',
-    icon: LogoutIcon
+    icon: LogoutIcon,
+    permiso: 'personal.listado'
   }
 ]
 
