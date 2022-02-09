@@ -14,3 +14,17 @@ export interface Diccionario<Tipo> {
 export type ModeloParaFormulario<Modelo> = {
   [Clave in keyof Modelo]: Modelo[Clave] | null
 }
+
+export type ParametrosBusqueda = {
+  buscado?: string | number | null
+  eliminados?: boolean
+  ordenadoPor?: string
+  orden?: 'ASC' | 'DESC'
+  pagina: number
+}
+
+export const PARAMETROS_BUSQUEDA_DEFAULT: ParametrosBusqueda = {
+  buscado: null,
+  pagina: 1,
+  orden: 'ASC'
+}
