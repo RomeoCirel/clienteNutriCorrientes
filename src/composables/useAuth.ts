@@ -10,36 +10,64 @@ import {
 import { useStore } from 'src/store'
 import { reactive, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { rutalogin } from 'src/router/rutasNombres'
+import { rutaHome, rutalogin } from 'src/router/rutasNombres'
 import { UsuarioAuth } from 'src/store/modulos/auth-modulo'
+import {
+  ClavesPermisos,
+  Permisos,
+  RespuestaObtenerPermisos
+} from 'src/types/Permisos/permisos-type'
+import {
+  NAMED_AUTH_OBTENER_USUARIO,
+  NAMED_AUTH_AUTENTICAR_USUARIO,
+  NAMED_AUTH_LOGOUT,
+  NAMED_AUTH_OBTENER_PERMISOS
+} from 'src/store/constantes/actions'
 const useAuth = () => {
   const store = useStore()
   const router = useRouter()
   const credenciales = reactive<CredencialesUsuario>(CREDENCIALES_DEFAULT)
   credenciales.device_name = dispositivo()
 
+  const estaLogueado = computed<boolean>(
+    () => store.getters['authModule/estaLogueado'] as boolean
+  )
+
+  const permisos = computed<Permisos>(
+    () => store.getters['authModule/permisosUsuarioAuth'] as Permisos
+  )
+
   const loguear = async (
     credenciales: CredencialesUsuario
   ): Promise<RespuestaLogin> => {
     console.log(credenciales)
     const res = (await store.dispatch(
-      'authModule/autenticar',
+      NAMED_AUTH_AUTENTICAR_USUARIO,
       credenciales
     )) as RespuestaLogin
     return res
   }
 
-  const estaLogueado = computed<boolean>(
-    () => store.getters['authModule/estaLogueado'] as boolean
-  )
+  const obtenerPermisos = async () => {
+    const res = (await store.dispatch(
+      NAMED_AUTH_OBTENER_PERMISOS
+    )) as RespuestaObtenerPermisos
+    if (!res.ok) {
+      if (res.estado === 500) {
+        // emitir notificaciones
+      }
+    }
+  }
 
   const recuperarSession = async () => {
     const res = (await store.dispatch(
-      'authModule/obtenerUsuarioAuth'
+      NAMED_AUTH_OBTENER_USUARIO
     )) as RespuestaUsuarioAuth
     if (res.ok) {
       if (res.estado === 200) {
         void store.dispatch('authModule/setLogueado')
+        void router.push({ name: rutaHome })
+        await obtenerPermisos()
       }
     }
     if (!res.ok) {
@@ -48,7 +76,13 @@ const useAuth = () => {
     return res
   }
 
+  const tienePermiso = (permisonNecesario: ClavesPermisos): boolean => {
+    return permisos.value[permisonNecesario]
+  }
+
   return {
+    permisos,
+    tienePermiso,
     loguear,
     credenciales,
     estaLogueado,
@@ -58,7 +92,7 @@ const useAuth = () => {
 
     cerrar: async () => {
       const res = (await store.dispatch(
-        'authModule/salir'
+        NAMED_AUTH_LOGOUT
       )) as RespuestaApiLogout
       if (res.ok) {
         if (res.estado === 200) {
@@ -69,7 +103,7 @@ const useAuth = () => {
 
     traerUsuarioAuth: async () => {
       const res = (await store.dispatch(
-        'authModule/obtenerUsuarioAuth'
+        NAMED_AUTH_OBTENER_USUARIO
       )) as RespuestaUsuarioAuth
       return res
     },
